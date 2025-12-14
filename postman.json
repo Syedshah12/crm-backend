@@ -1,0 +1,249 @@
+{
+  "info": {
+    "name": "CRM Backend Full API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "crm-backend-full-api"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Admin Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"admin@example.com\",\n    \"password\": \"123456\"\n}"
+            },
+            "url": "{{base_url}}/api/auth/admin/login"
+          }
+        },
+        {
+          "name": "ShopAdmin Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"shopadmin@example.com\",\n    \"password\": \"123456\"\n}"
+            },
+            "url": "{{base_url}}/api/auth/shopadmin/login"
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Shops (Admin Only)",
+      "item": [
+        {
+          "name": "Create Shop",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n \"name\": \"Shop A\",\n \"logo\": \"\",\n \"address\": \"Lahore\",\n \"site\": \"https://shopA.com\",\n \"phone_number\": \"03001234567\",\n \"admin_mail\": \"shopadmin@example.com\",\n \"admin_password\": \"123456\",\n \"rent\": 10000,\n \"bills\": 5000,\n \"shop_open_time\": \"09:00\",\n \"shop_close_time\": \"18:00\"\n}"
+            },
+            "url": "{{base_url}}/api/shops"
+          }
+        },
+        {
+          "name": "Get All Shops",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{base_url}}/api/shops"
+          }
+        },
+        {
+          "name": "Update Shop",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"address\": \"New Address\" }"
+            },
+            "url": "{{base_url}}/api/shops/{{shopId}}"
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Employees (ShopAdmin Only)",
+      "item": [
+        {
+          "name": "Create Employee",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n \"name\": \"Ali\",\n \"share_code\": \"SC123\",\n \"ni_number\": \"NI123123\",\n \"address\": \"Street 1\",\n \"phone_number\": \"03000000000\",\n \"shift_timing\": \"Morning\",\n \"pay_type\": \"Hourly\",\n \"fixed_daily_rate\": null,\n \"hourly_rate\": 6\n}"
+            },
+            "url": "{{base_url}}/api/employees"
+          }
+        },
+        {
+          "name": "Get Shop Employees",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{base_url}}/api/employees/shop/{{shopId}}"
+          }
+        },
+        {
+          "name": "Update Employee Pay Rates",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"hourly_rate\": 8 }"
+            },
+            "url": "{{base_url}}/api/employees/rate/{{employeeId}}"
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Rota (Schedule)",
+      "item": [
+        {
+          "name": "Assign Rota",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n \"shopId\": \"{{shopId}}\",\n \"employeeId\": \"{{employeeId}}\",\n \"shift_date\": \"2025-03-20\",\n \"scheduled_start\": \"09:00\",\n \"scheduled_end\": \"18:00\",\n \"note\": \"Morning shift\"\n}"
+            },
+            "url": "{{base_url}}/api/rota"
+          }
+        },
+        {
+          "name": "Get Shop Rota",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{base_url}}/api/rota/shop/{{shopId}}"
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Punching",
+      "item": [
+        {
+          "name": "Punch In",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n \"shopId\": \"{{shopId}}\",\n \"employeeId\": \"{{employeeId}}\"\n}"
+            },
+            "url": "{{base_url}}/api/punch/in"
+          }
+        },
+        {
+          "name": "Punch Out",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"recordId\": \"{{punchId}}\" }"
+            },
+            "url": "{{base_url}}/api/punch/out"
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Salary & Payments",
+      "item": [
+        {
+          "name": "Calculate Employee Salary",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{base_url}}/api/salary/calc/{{employeeId}}?start=2025-03-01&end=2025-03-31"
+          }
+        },
+        {
+          "name": "Create Payment Payout",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n \"employeeId\": \"{{employeeId}}\",\n \"amount_paid\": 200,\n \"payout_start_date\": \"2025-03-01\",\n \"payout_end_date\": \"2025-03-15\",\n \"payout_date\": \"2025-03-16\"\n}"
+            },
+            "url": "{{base_url}}/api/payouts"
+          }
+        },
+        {
+          "name": "Employee Payment History",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{base_url}}/api/payouts/employee/{{employeeId}}"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    { "key": "base_url", "value": "http://localhost:5000" },
+    { "key": "token", "value": "" },
+    { "key": "shopId", "value": "" },
+    { "key": "employeeId", "value": "" },
+    { "key": "punchId", "value": "" }
+  ]
+}
